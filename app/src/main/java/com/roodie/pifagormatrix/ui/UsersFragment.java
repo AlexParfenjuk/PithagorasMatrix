@@ -2,8 +2,10 @@ package com.roodie.pifagormatrix.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
@@ -34,7 +36,6 @@ public class UsersFragment extends ListFragment {
 
     ListView listView;
     private ArrayList<User> allUsers;
-
     private static final String VERSION_UNAVAILABLE = "N/A";
 
     private UsersAdapter usersAdapter;
@@ -133,11 +134,15 @@ public class UsersFragment extends ListFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_github:
+            case R.id.action_github: {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/AlexParfenjuk/PithagorasMatrix"));
+                startActivity(browserIntent);
+            }
                 return true;
-            case R.id.action_dark_theme:
+            case R.id.action_dark_theme: {
                 Prefs.setDarkTheme(getActivity(), !item.isChecked());
-                ((MainActivity)getActivity()).onChangeTheme();
+                ((MainActivity) getActivity()).onChangeTheme();
+            }
                 return true;
             case R.id.action_about:
                 showAboutDialog();

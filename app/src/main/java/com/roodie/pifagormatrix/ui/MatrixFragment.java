@@ -2,6 +2,8 @@ package com.roodie.pifagormatrix.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -40,7 +42,6 @@ public class MatrixFragment extends Fragment {
     private TextView matrixText;
     private TextView matrixTitle;
     private User user;
-    final MatrixItem matrixItem = new MatrixItem();
 
 
     @Override
@@ -114,7 +115,10 @@ public class MatrixFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_github:
+            case R.id.action_github: {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/AlexParfenjuk/PithagorasMatrix"));
+                startActivity(browserIntent);
+            }
                 return true;
             case R.id.action_dark_theme:
                 Prefs.setDarkTheme(getActivity(), !item.isChecked());
