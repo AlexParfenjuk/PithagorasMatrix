@@ -1,4 +1,4 @@
-# PithagorasMatrix
+# Матрица Пифагора
 A simple Android app based on Pythagoras square or "Psychomatrix".
 
 Психоматрица - один из методов анализа человека, разработанная древнегреческим философом и математиком Пифагором.
