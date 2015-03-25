@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Матрица Пифагора</string>
+
+    <string name="button_add_user">Новый пользователь</string>
+    <string name="all_users">Пользователи</string>
+    <string name="user_icon_image_description">Пользователь</string>
+    <string name="add_user_add_text">Добавить</string>
+    <string name="add_user_birthday_hint">Выберите дату рождения</string>
+    <string name="add_user_name_hint">Введите имя пользователя</string>
+    <string name="edit_user_remove_text">Удалить</string>
+    <string name="edit_user_edit_text">Сохранить</string>
+    <string name="add_user">Добавить пользователя</string>
+    <string name="edit_user_fragment_title">Редактировать пользователя</string>
+
+    <string name="input_name_error">Имя должно состоять из букв!</string>
+    <string name="image">Image</string>
+    <string name="matrix_title">Матрица Пифагора</string>
+    <string name="hint_matrix">Нажмите на ячейку матрицы для отображения качества и его числовой характеристики</string>
+    <string name="first_number">"Первое дополнительное число: "</string>
+    <string name="second_number">"Второе дополнительное число: "</string>
+    <string name="third_number">"Третье дополнительное число: "</string>
+    <string name="fourth_number">"Четвёртое дополнительное число: "</string>
+    <string name="none_number">отсутствует</string>
+    <string name="all_numbers">"Все цифры: "</string>
+    <string name="birthday_date">Дата рождения: </string>
+    <string name="dialog_title">Подтверждение</string>
+    <string name="dialog_access">Да</string>
+    <string name="dialog_dismiss">Нет</string>
+    <string name="action_dark_theme">Тёмный фон</string>
+    <string name="action_about">О программе</string>
+    <string name="about_title" translatable="false">%1$s v%2$s</string>
+    <string name="about_message"><![CDATA[
+        «Матрица Пифагора» — это бесплатное приложение</a>.
+        <br/>
+        Пожелания и предложения отправляйте на <a href="mailto:ololoa3272@gmail.com?subject=Матрица&nbsp;Пифагора">ololoa3272@gmail.com</a>.
+        <br/>
+        <br/>
+    ]]></string>
+    <string name="close">Закрыть</string>
+</resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/add_user_image"
+        android:clickable="true"
+        android:layout_width="60.0dip"
+        android:layout_height="60.0dip"
+        android:layout_marginTop="15.0dip"
+        android:src="@drawable/user_photo_placeholder_dark"
+        android:contentDescription="@string/user_icon_image_description" />
+
+    <EditText
+        android:ellipsize="end"
+        android:id="@+id/add_username"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15.0dip"
+        android:layout_marginTop="10.0dip"
+        android:layout_marginRight="15.0dip"
+        android:text=""
+        android:hint="@string/add_user_name_hint"
+        android:maxLines="1"
+        android:lines="1"
+        android:ems="10"
+        android:singleLine="true"
+        android:imeOptions="actionDone" />
+
+    <EditText
+        android:id="@+id/add_birthday"
+        android:focusable="false"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15.0dip"
+        android:layout_marginTop="10.0dip"
+        android:layout_marginRight="15.0dip"
+        android:hint="@string/add_user_birthday_hint"
+        android:ems="10"
+        style="@android:style/Widget.Holo.Light.Spinner" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15.0dip"
+        android:layout_marginTop="20.0dip"
+        android:layout_marginRight="15.0dip"
+        style="?android:attr/buttonBarStyle">
+
+        <Button
+            android:id="@+id/add_user_button"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:text="@string/add_user_add_text"
+            android:layout_weight="1.0"
+            style="?android:attr/buttonBarButtonStyle" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/description_tv"
+        android:paddingTop="@dimen/vertical_margin_big"
+        android:paddingBottom="@dimen/vertical_margin_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        style="@style/ListTextWhite"
+         />
+
+    <GridView
+        android:id="@+id/grid_view"
+        android:paddingLeft="3.0dip"
+        android:paddingRight="3.0dip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="5.0dip"
+        android:verticalSpacing="5.0dip"
+        android:isScrollContainer="false"
+        android:listSelector="@android:color/holo_blue_light" />
+
+    <ScrollView
+        android:id="@+id/results_scrollview"
+        android:paddingLeft="@dimen/horizontal_margin_big"
+        android:paddingRight="@dimen/horizontal_margin_big"
+        android:paddingBottom="@dimen/vertical_margin_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textSize="17.0sp"
+                android:gravity="center_horizontal"
+                android:id="@+id/matrix_title"
+                android:paddingTop="@dimen/vertical_margin_small"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?titleTextColor"
+                android:text=""
+                android:textStyle="bold" />
+
+            <TextView
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textSize="16.0sp"
+                android:id="@+id/matrix_text"
+                android:paddingTop="@dimen/vertical_margin_small"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?titleTextColor"
+                android:text="" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

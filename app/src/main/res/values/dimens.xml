@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="horizontal_margin_big">8.0dip</dimen>
+    <dimen name="vertical_margin_big">8.0dip</dimen>
+    <dimen name="horizontal_margin_small">3.0dip</dimen>
+    <dimen name="vertical_margin_small">3.0dip</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Font sizes -->
+    <dimen name="font_edit_display">30sp</dimen>
+    <dimen name="font_title">20sp</dimen>
+    <dimen name="font_subhead">16sp</dimen>
+    <dimen name="font_body">14sp</dimen>
+
+    <dimen name="list_item_padding">16.0dip</dimen>
+
+</resources>
