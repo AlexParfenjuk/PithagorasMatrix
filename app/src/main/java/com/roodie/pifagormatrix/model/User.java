@@ -3,13 +3,17 @@ package com.roodie.pifagormatrix.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.roodie.pifagormatrix.Utils;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 /**
  * Created by Roodie on 15.03.2015.
  */
-public class User implements Parcelable{
+public class User implements Parcelable {
 
     public static final String USER_INSTANCE = "USER_INSTANCE";
 
@@ -20,8 +24,11 @@ public class User implements Parcelable{
     private int birthyear;
     private int id;
     private String userName;
+    private ArrayList<String> matrixArray;
 
-    public User() {}
+
+    public User() {
+    }
 
     public User(int birthday, int month, int year, int id, String userName) {
         this.birthday = birthday;
@@ -68,8 +75,8 @@ public class User implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeIntArray(new int[] {this.birthday,
-        this.birthmonth, this.birthyear, this.id});
+        dest.writeIntArray(new int[]{this.birthday,
+                this.birthmonth, this.birthyear, this.id});
         dest.writeString(this.userName);
 
     }
@@ -98,90 +105,216 @@ public class User implements Parcelable{
                 '}';
     }
 
+
     public String getStringFullBirthday() {
         final Calendar instance = Calendar.getInstance();
-        instance.set(Calendar.YEAR,this.getYear());
-        instance.set(Calendar.MONTH,this.getMonth());
-        instance.set(Calendar.DAY_OF_MONTH,this.getBirthday());
-        return new SimpleDateFormat("dd MMMM yyyy").format(instance.getTime());
+        instance.set(Calendar.YEAR, this.getYear());
+        instance.set(Calendar.MONTH, this.getMonth());
+        instance.set(Calendar.DAY_OF_MONTH, this.getBirthday());
+        return new SimpleDateFormat("dd MM yyyy").format(instance.getTime());
     }
 
-    public String matrixPythagorasAllNumbers() {
-        return String.valueOf(this.matrixPythagorasBirthdayNumber()) + " " + this.matrixPythagorasFirstNumber() + " " + this.matrixPythagorasSecondNumber() + " " + this.matrixPythagorasThirdNumber() + " " + this.matrixPythagorasFourthNumber();
+    public String[] matrixPythagorasBirthdayNumbers() {
+        String[] array = this.getStringFullBirthday().split("\\s+");
+        for (String arr : array)
+            System.out.println("Birthday data: " + arr);
+        return array;
     }
 
-    public String[] matrixPythagorasAllNumbersArray() {
-        final String[] array = { "", "", "", "", "", "", "", "", "", "" };
-        final String matrixPythagorasAllNumbers = this.matrixPythagorasAllNumbers();
-        for (int i = 0; i < matrixPythagorasAllNumbers.length(); ++i) {
-            final String value = String.valueOf(matrixPythagorasAllNumbers.charAt(i));
-            if (!value.equals(" ") && Integer.valueOf(value) != 0) {
-                final int intValue = Integer.valueOf(value);
-                array[intValue] = String.valueOf(array[intValue]) + String.valueOf(matrixPythagorasAllNumbers.charAt(i));
+
+    public String[] matrixPythagorasBasicNumbers() {
+        String[] array = new String[4];
+        try {
+            array[0] = String.valueOf(this.matrixPythagorasFirstNumber());
+            array[1] = String.valueOf(this.matrixPythagorasSecondNumber());
+            array[2] = String.valueOf(this.matrixPythagorasThirdNumber());
+            array[3] = String.valueOf(this.matrixPythagorasFourthNumber());
+            for (String arr : array)
+                System.out.println("Basic numbers: " + arr);
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+        return array;
+    }
+
+
+    public String[] matrixPythagorasExtraNumbers() {
+        String[] array = new String[2];
+        try {
+            array[0] = String.valueOf(this.matrixPythagorasFifthNumber());
+            array[1] = String.valueOf(this.matrixPythagorasSixthNumber());
+            for (String arr : array)
+                System.out.println("Extra numbers: " + arr);
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
+        return array;
+    }
+
+
+    public String[] matrixPythagorasBasicNumbersArray(Utils.ArrayDestination type) {
+        final String[] array = {"", "", "", "", "", "", "", "", "", "", "", "", ""};
+        final String[] matrixPythagorasBirthdayNumbers = this.matrixPythagorasBirthdayNumbers();
+        for (String number : matrixPythagorasBirthdayNumbers) {
+            for (int i = 0; i < number.length(); i++) {
+                final int numberValueAt = Integer.valueOf(String.valueOf(number.charAt(i)));
+                array[numberValueAt] += String.valueOf(number.charAt(i));
             }
         }
-        for (int j = 1; j <= 9; ++j) {
+        final String[] matrixPythagorasBasicNumbers = this.matrixPythagorasBasicNumbers();
+        for (String number : matrixPythagorasBasicNumbers) {
+            if (!"null".equals(number)) {
+                if (Integer.valueOf(number) >= 10 && Integer.valueOf(number) <= 12) {
+                    final int numberValue = Integer.valueOf(number);
+                    array[numberValue] = String.valueOf(array[numberValue]) + String.valueOf(numberValue);
+                }
+                if (Integer.valueOf(number) != 11) {
+                    for (int i = 0; i < number.length(); i++) {
+                        final int numberValueAt = Integer.valueOf(String.valueOf(number.charAt(i)));
+                        array[numberValueAt] = String.valueOf(array[numberValueAt]) + String.valueOf(numberValueAt);
+                    }
+                }
+            }
+        }
+
+        for (int j = 0; j < array.length; ++j) {
+            if (type == Utils.ArrayDestination.GRID) {
+                if (array[j].equals(""))
+                    array[j] = "0";
+            } else {
+                if (array[j].equals(""))
+                    array[j] = "0" + (Object) j;
+                array[j] = "M" + j + ":" + array[j];
+            }
+        }
+
+        return array;
+    }
+
+    public String[] matrixPythagorasExtraNumbersArray() {
+        final String[] array = {"", "", "", "", "", "", "", "", "", "", "", "", ""};
+        final String[] matrixPythagorasExtraNumbers = this.matrixPythagorasExtraNumbers();
+        for (String number : matrixPythagorasExtraNumbers) {
+            if (!"null".equals(number)) {
+                if (Integer.valueOf(number) >= 10 && Integer.valueOf(number) <= 12) {
+                    int numberValue = Integer.valueOf(number);
+                    array[numberValue] = String.valueOf(array[numberValue]) + String.valueOf(numberValue);
+                }
+                if (Integer.valueOf(number) != 11) {
+                    for (int i = 0; i < number.length(); i++) {
+                        int numberValueAt = Integer.valueOf(String.valueOf(number.charAt(i)));
+                        array[numberValueAt] = String.valueOf(array[numberValueAt]) + String.valueOf(numberValueAt);
+                    }
+                }
+            }
+        }
+        for (int j = 0; j < array.length; ++j) {
             if (array[j].equals("")) {
-                array[j] = "0" + (Object)j;
+                array[j] = "0";
             }
         }
         return array;
     }
 
-    public String matrixPythagorasBirthdayNumber() {
-        return String.valueOf(String.valueOf(this.birthday)) + " " + String.valueOf(1 + this.birthmonth) + " " + String.valueOf(this.birthyear);
+
+    // Get first derived number
+    public Integer matrixPythagorasFirstNumber() {
+        return Utils.simplifyNumberHalf(this.birthday + (1 + this.birthmonth) * 100 + this.birthyear * 10000);
     }
 
-    public String matrixPythagorasFirstNumber() {
-        return String.valueOf(this.simplifyNumberHalf(this.birthday + (1 + this.birthmonth) * 100 + this.birthyear * 10000));
+    // Get second derived number
+    public Integer matrixPythagorasSecondNumber() {
+        int result = Utils.simplifyNumberHalf(this.matrixPythagorasFirstNumber());
+        if (result < 10) return null;
+        else return result;
     }
 
-    public String matrixPythagorasSecondNumber() {
-        int result = this.simplifyNumberHalf(Integer.valueOf(this.matrixPythagorasFirstNumber()));
-        //if ( result < 10 )  return String.valueOf(0);
-        return String.valueOf(result);
-    }
-
-    public String matrixPythagorasThirdNumber() {
+    // Get third derived number
+    public Integer matrixPythagorasThirdNumber() {
         final int n = 1 + this.birthmonth;
         final int userBirthDay = this.birthday;
-        return String.valueOf(Math.abs(Integer.valueOf(this.matrixPythagorasFirstNumber()) -(2 * Integer.parseInt(String.valueOf(String.valueOf(userBirthDay).charAt(0))))));
+        return Math.abs(this.matrixPythagorasFirstNumber() - (2 * Integer.parseInt(String.valueOf(String.valueOf(userBirthDay).length() == 1 ? "0" : String.valueOf(userBirthDay).charAt(0)))));
     }
 
-    public String matrixPythagorasFourthNumber() {
-        int result = this.simplifyNumberHalf(Integer.valueOf(this.matrixPythagorasThirdNumber()));
-        //if ( result < 10 ) return String.valueOf(0);
-        return String.valueOf(result);
+    // Get fourth derived number
+    public Integer matrixPythagorasFourthNumber() {
+        if (this.matrixPythagorasThirdNumber() < 10)
+            return null;
+        int result = Utils.simplifyNumberHalf(this.matrixPythagorasThirdNumber());
+        return result;
     }
 
-    public String[] matrixPythagorasGridData() {
-        final String[] array = { "", "", "", "", "", "", "", "", "" };
-        final String[] matrixPythagorasAllNumbersArray = this.matrixPythagorasAllNumbersArray();
-        for (int i = 0; i < -1 + matrixPythagorasAllNumbersArray.length; ++i) {
-            if (String.valueOf(matrixPythagorasAllNumbersArray[i + 1].charAt(0)).equals("0")) {
-                array[i] = "-";
+    // Get fifth derived number
+    public Integer matrixPythagorasFifthNumber() {
+        int result = matrixPythagorasFirstNumber() + matrixPythagorasThirdNumber();
+        return result;
+    }
+
+    // Get sixth derived number
+    public Integer matrixPythagorasSixthNumber() {
+        int result = (matrixPythagorasSecondNumber() == null ? 0 : matrixPythagorasSecondNumber()) + (matrixPythagorasFourthNumber() == null ? 0 : matrixPythagorasFourthNumber());
+        if (result == 0)
+            return null;
+        return result;
+    }
+
+
+    public ArrayList<String> matrixPythagorasGridDataBasic() {
+        final String[] basicNumbersArray = this.matrixPythagorasBasicNumbersArray(Utils.ArrayDestination.GRID);
+        final String[] extraNumbersArray = this.matrixPythagorasExtraNumbersArray();
+
+
+        for (int i = 0; i < basicNumbersArray.length; i++) {
+            if (i != 0 && String.valueOf(extraNumbersArray[i].charAt(0)).equals("0")) {
+                extraNumbersArray[i] = "";
+            } else {
+                extraNumbersArray[i] = "(" + extraNumbersArray[i] + ")";
             }
-            else {
-                array[i] = matrixPythagorasAllNumbersArray[i + 1];
+            if (i != 0 && String.valueOf(basicNumbersArray[i].charAt(0)).equals("0")) {
+                basicNumbersArray[i] = "- ";
             }
+            basicNumbersArray[i] += extraNumbersArray[i];
         }
-        return array;
+
+        ArrayList<String> matrixList = new ArrayList<String>(Arrays.asList(basicNumbersArray));
+        return matrixList;
     }
 
+    public String[] matrixPythagorasGridDataExtra() {
+        final String[] basicNumbersArray = this.matrixPythagorasBasicNumbersArray(Utils.ArrayDestination.GRID);
+        final String[] extraNumbersArray = this.matrixPythagorasExtraNumbersArray();
+        String[] basicNumbersSum = new String[4];
+        for (int i = 0, j = 0; i < 4; i++) {
+            int bas1, bas2, bas3, ext1, ext2, ext3;
+            if (i == 3) {
+                bas1 = Integer.valueOf(basicNumbersArray[j + 1]);
+                bas2 = Integer.valueOf(basicNumbersArray[j + 2]);
+                bas3 = Integer.valueOf(basicNumbersArray[j + 3]);
+                ext1 = Integer.valueOf(extraNumbersArray[j + 1]);
+                ext2 = Integer.valueOf(extraNumbersArray[j + 2]);
+                ext3 = Integer.valueOf(extraNumbersArray[j + 3]);
 
-    public int simplifyNumberHalf(final int n) {
-        final String string = Integer.toString(n);
-        int n2 = 0;
-        if (string.length() == 1) {
-            return n;
+
+            } else {
+                bas1 = Utils.simplifyNumberHalf(Integer.valueOf(basicNumbersArray[j + 1]));
+                bas2 = Utils.simplifyNumberHalf(Integer.valueOf(basicNumbersArray[j + 2]));
+                bas3 = Utils.simplifyNumberHalf(Integer.valueOf(basicNumbersArray[j + 3]));
+                ext1 = Utils.simplifyNumberHalf(Integer.valueOf(extraNumbersArray[j + 1]));
+                ext2 = Utils.simplifyNumberHalf(Integer.valueOf(extraNumbersArray[j + 2]));
+                ext3 = Utils.simplifyNumberHalf(Integer.valueOf(extraNumbersArray[j + 3]));
+            }
+            int sumBasic = bas1 + bas2 + bas3;
+            if (sumBasic > 12)
+                sumBasic = Utils.simplifyNumberHalf(bas1 + bas2 + bas3);
+            int sumExtra = ext1 + ext2 + ext3;
+            if (sumExtra > 12)
+                sumExtra = Utils.simplifyNumberHalf(ext1 + ext2 + ext3);
+            basicNumbersSum[i] = (sumBasic != 0 ? String.valueOf(sumBasic) : "") + (sumExtra != 0 ? " (" + String.valueOf(sumExtra) + ")" : "");
+            j += 3;
         }
-        for (int i = 0; i < string.length(); ++i) {
-            n2 += Integer.valueOf(string.substring(i, i + 1));
-        }
-        String.valueOf(n2);
-        return n2;
+        //ArrayList<String> matrixList = new ArrayList<String>(Arrays.asList(basicNumbersSum));
+        return basicNumbersSum;
     }
-
 
 
     public void setBirthday(int birthday) {
@@ -203,4 +336,6 @@ public class User implements Parcelable{
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+
 }
