@@ -14,17 +14,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.roodie.pifagormatrix.Prefs;
 import com.roodie.pifagormatrix.R;
+import com.roodie.pifagormatrix.Utils;
 import com.roodie.pifagormatrix.adapters.GridViewAdapter;
 import com.roodie.pifagormatrix.provider.PythagorasMatrixDatabase;
 import com.roodie.pifagormatrix.model.MatrixItem;
 import com.roodie.pifagormatrix.model.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by Roodie on 17.03.2015.
@@ -37,10 +41,14 @@ public class MatrixFragment extends Fragment {
 
     Context context;
 
+    private int previousClicked = 0; //position of last clicked grid item
+
     private TextView descriptionTV;
-    private GridView matrixGridView;
+    private GridView basicGridView;
+    private GridView extraGridView;
     private TextView matrixText;
     private TextView matrixTitle;
+    private TextView matrixZeroItem;
     private User user;
 
 
@@ -86,14 +94,16 @@ public class MatrixFragment extends Fragment {
         descriptionTV = (TextView) view.findViewById(R.id.description_tv);
         matrixText = (TextView) view.findViewById(R.id.matrix_text);
         matrixTitle = (TextView) view.findViewById(R.id.matrix_title);
-        matrixGridView = (GridView) view.findViewById(R.id.grid_view);
+        matrixZeroItem = (TextView) view.findViewById(R.id.zero_tv);
+        basicGridView = (GridView) view.findViewById(R.id.grid_view_basic);
+        extraGridView = (GridView) view.findViewById(R.id.grid_view_extra);
 
         descriptionTV.setText(this.user.getStringFullBirthday());
         matrixTitle.setText(R.string.hint_matrix);
 
        // String str = new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf("")).append( getResources().getString(R.string.first_number)).append(String.valueOf(this.user.matrixPythagorasFirstNumber())).toString())).append("\n").append(getResources().getString(R.string.second_number)).append(String.valueOf(this.user.matrixPythagorasSecondNumber())).toString())).append("\n").append(getResources().getString(R.string.third_number)).append(String.valueOf(this.user.matrixPythagorasThirdNumber())).toString())).append("\n").append(getResources().getString(R.string.fourth_number)).append(String.valueOf(this.user.matrixPythagorasFourthNumber())).append("\n").toString() + getResources().getString(R.string.all_numbers) + " " + String.valueOf(this.user.matrixPythagorasAllNumbers());
-        String str = new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf("")).append(getResources().getString(R.string.first_number)).append(String.valueOf(this.user.matrixPythagorasFirstNumber())).toString())).append("\n").append(getResources().getString(R.string.second_number)).append(String.valueOf((Integer.valueOf(this.user.matrixPythagorasSecondNumber()) < 10 ) ? getResources().getString(R.string.none_number) : this.user.matrixPythagorasSecondNumber()  )).toString())).append("\n").append(getResources().getString(R.string.third_number)).append(String.valueOf(this.user.matrixPythagorasThirdNumber())).toString())).append("\n").append(getResources().getString(R.string.fourth_number)).append(String.valueOf( (Integer.valueOf(this.user.matrixPythagorasFourthNumber()) < 10) ? getResources().getString(R.string.none_number) : this.user.matrixPythagorasFourthNumber()  )).append("\n") + getResources().getString(R.string.all_numbers) + " " + String.valueOf(this.user.matrixPythagorasAllNumbers());
-        matrixText.setText(str);
+       // String str = new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf("")).append(getResources().getString(R.string.first_number)).append(String.valueOf(this.user.matrixPythagorasFirstNumber())).toString())).append("\n").append(getResources().getString(R.string.second_number)).append(String.valueOf((Integer.valueOf(this.user.matrixPythagorasSecondNumber()) < 10 ) ? getResources().getString(R.string.none_number) : this.user.matrixPythagorasSecondNumber()  )).toString())).append("\n").append(getResources().getString(R.string.third_number)).append(String.valueOf(this.user.matrixPythagorasThirdNumber())).toString())).append("\n").append(getResources().getString(R.string.fourth_number)).append(String.valueOf( (this.user.matrixPythagorasFourthNumber() < 10) ? getResources().getString(R.string.none_number) : this.user.matrixPythagorasFourthNumber()  )).append("\n") + " ";
+       // matrixText.setText(str);
         try {
             adjustGridView();
         } catch (IOException ex) {
@@ -151,17 +161,25 @@ public class MatrixFragment extends Fragment {
 
 
     private void adjustGridView() throws IOException{
-        this.matrixGridView.setNumColumns(3);
+        this.basicGridView.setNumColumns(3);
+        this.extraGridView.setNumColumns(1);
         dbHelper = new PythagorasMatrixDatabase(this.context);
-        final String[] gridData = this.user.matrixPythagorasGridData();
-        final String[] matrixPyphagoresAllNumbersArray = this.user.matrixPythagorasAllNumbersArray();
-        this.matrixGridView.setAdapter(new GridViewAdapter(this.context, gridData));
-        this.matrixGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        final ArrayList<String> gridDataBasic = this.user.matrixPythagorasGridDataBasic();
+        final String[] gridDataExtra = this.user.matrixPythagorasGridDataExtra();
+        String zeroNumbers = gridDataBasic.get(0);
+        gridDataBasic.remove(0);
+        matrixZeroItem.setText(zeroNumbers);
+        final String[] matrixPythagorasAllNumbersArray = this.user.matrixPythagorasBasicNumbersArray(Utils.ArrayDestination.DATABASE);
+        this.basicGridView.setAdapter(new GridViewAdapter(this.context, gridDataBasic));
+        this.extraGridView.setAdapter(new ArrayAdapter<String>(this.context, R.layout.grid_item,R.id.grid_text, gridDataExtra));
+        this.basicGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                matrixTitle.setText(dbHelper.getTitleByValue("matrix_pythagoras",matrixPyphagoresAllNumbersArray[position + 1].toString()));
-                matrixText.setText(dbHelper.getDescriptionByValue("matrix_pythagoras",matrixPyphagoresAllNumbersArray[position + 1].toString()));
+                if (position != previousClicked) {
+                    matrixTitle.setText(dbHelper.getTitleByValue("matrix_pythagoras", matrixPythagorasAllNumbersArray[position + 1].toString()));
+                    matrixText.setText(dbHelper.getDescriptionByValue("matrix_pythagoras", matrixPythagorasAllNumbersArray[position + 1].toString()));
+                    previousClicked = position;
+                }
             }
 
         });

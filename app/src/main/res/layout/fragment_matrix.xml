@@ -16,23 +16,66 @@
         style="@style/ListTextWhite"
          />
 
-    <GridView
-        android:id="@+id/grid_view"
-        android:paddingLeft="3.0dip"
-        android:paddingRight="3.0dip"
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/results_scrollview"
+        android:background="?dividerBackground" />
+
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:id="@+id/zero_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:horizontalSpacing="5.0dip"
-        android:verticalSpacing="5.0dip"
-        android:isScrollContainer="false"
-        android:listSelector="@android:color/holo_blue_light" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="zero"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:background="#fff2f2f2"
+        android:textColor="#ff585858"
+        android:layout_marginRight="3dip"
+        android:layout_marginLeft="3dip"
+        android:layout_marginTop="5dip"
+        android:layout_marginBottom="5dip" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <GridView
+            android:id="@+id/grid_view_basic"
+            android:paddingLeft="3.0dip"
+            android:paddingRight="3.0dip"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="5.0dip"
+            android:verticalSpacing="5.0dip"
+            android:isScrollContainer="false"
+            android:listSelector="@android:color/holo_blue_light" />
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3.0dip"
+            android:paddingRight="3.0dip"
+            android:horizontalSpacing="5.0dip"
+            android:verticalSpacing="5.0dip"
+            android:isScrollContainer="false"
+            android:listSelector="@android:color/holo_blue_light"
+            android:id="@+id/grid_view_extra"
+            android:layout_weight="3" />
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/results_scrollview"
         android:paddingLeft="@dimen/horizontal_margin_big"
         android:paddingRight="@dimen/horizontal_margin_big"
         android:paddingBottom="@dimen/vertical_margin_big"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout

@@ -15,4 +15,11 @@
     <color name="splash_gradient_end">#ff990066</color>
 
     <color name="remove_button_text_color">#fff44336</color>
+
+
+    <color name="grid_item_normal">#8BC34A</color>
+    <color name="grid_item_larger">#FFEB3B</color>
+    <color name="grid_item_less">#FF5722</color>
+    <color name="grid_item_default">#fff2f2f2</color>
+
 </resources>
