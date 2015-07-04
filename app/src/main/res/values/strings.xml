@@ -16,10 +16,6 @@
     <string name="image">Image</string>
     <string name="matrix_title">Матрица Пифагора</string>
     <string name="hint_matrix">Нажмите на ячейку матрицы для отображения качества и его числовой характеристики</string>
-    <string name="first_number">"Первое дополнительное число: "</string>
-    <string name="second_number">"Второе дополнительное число: "</string>
-    <string name="third_number">"Третье дополнительное число: "</string>
-    <string name="fourth_number">"Четвёртое дополнительное число: "</string>
     <string name="none_number">отсутствует</string>
     <string name="all_numbers">"Все цифры: "</string>
     <string name="birthday_date">Дата рождения: </string>
@@ -27,14 +23,14 @@
     <string name="dialog_access">Да</string>
     <string name="dialog_dismiss">Нет</string>
     <string name="action_dark_theme">Тёмный фон</string>
-    <string name="action_about">О программе</string>
-    <string name="about_title" translatable="false">%1$s v%2$s</string>
+    <string name="action_about">О приложении</string>
+    <string name="action_source">Перейти на GitHub</string>
+    <string name="action_close">Закрыть</string>
     <string name="about_message"><![CDATA[
-        «Матрица Пифагора» — это бесплатное приложение</a>.
+        «Матрица Пифагора» — это бесплатное приложение с открытым исходным кодом</a>.
         <br/>
         Пожелания и предложения отправляйте на <a href="mailto:ololoa3272@gmail.com?subject=Матрица&nbsp;Пифагора">ololoa3272@gmail.com</a>.
         <br/>
         <br/>
     ]]></string>
-    <string name="close">Закрыть</string>
 </resources>

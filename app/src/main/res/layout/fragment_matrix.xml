@@ -16,13 +16,6 @@
         style="@style/ListTextWhite"
          />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_above="@+id/results_scrollview"
-        android:background="?dividerBackground" />
-
     <TextView
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
@@ -69,6 +62,13 @@
             android:id="@+id/grid_view_extra"
             android:layout_weight="3" />
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/results_scrollview"
+        android:background="?dividerBackground" />
 
     <ScrollView
         android:id="@+id/results_scrollview"

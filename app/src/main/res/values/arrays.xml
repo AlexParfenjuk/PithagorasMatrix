@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string-array name="basic_numbers">
+       <item>1-ое производное число: </item>
+       <item>2-ое производное число: </item>
+       <item>3-ее производное число: </item>
+       <item>4-ое производное число: </item>
+   </string-array>
+
+    <string-array name="extra_numbers">
+        <item>5-ое производное число: </item>
+        <item>6-ое производное число: </item>
+    </string-array>
+</resources>

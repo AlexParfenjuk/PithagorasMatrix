@@ -1,9 +1,13 @@
 package com.roodie.pifagormatrix.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.roodie.pifagormatrix.Prefs;
 import com.roodie.pifagormatrix.R;
 import com.roodie.pifagormatrix.Utils;
@@ -88,6 +92,24 @@ public class MainActivity extends ActionBarActivity {
                 .replace(R.id.container, fragment, MatrixFragment.TAG)
                 .addToBackStack(null)
                 .commit();
+
+    }
+
+    public  void showAboutDialog() {
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.app_name))
+                .content(Html.fromHtml(getString(R.string.about_message)))
+                .positiveText(R.string.action_source)
+                .negativeText(R.string.action_close)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/AlexParfenjuk/PithagorasMatrix"));
+                        startActivity(browserIntent);
+                    }
+                })
+                .build()
+                .show();
 
     }
 

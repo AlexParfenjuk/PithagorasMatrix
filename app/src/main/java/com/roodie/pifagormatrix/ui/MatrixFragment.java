@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,17 +19,16 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.roodie.pifagormatrix.Prefs;
 import com.roodie.pifagormatrix.R;
 import com.roodie.pifagormatrix.Utils;
 import com.roodie.pifagormatrix.adapters.GridViewAdapter;
 import com.roodie.pifagormatrix.provider.PythagorasMatrixDatabase;
-import com.roodie.pifagormatrix.model.MatrixItem;
-import com.roodie.pifagormatrix.model.User;
 
+import com.roodie.pifagormatrix.model.User;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by Roodie on 17.03.2015.
@@ -41,7 +41,7 @@ public class MatrixFragment extends Fragment {
 
     Context context;
 
-    private int previousClicked = 0; //position of last clicked grid item
+    private int previousClicked = -1; //position of last clicked grid item
 
     private TextView descriptionTV;
     private GridView basicGridView;
@@ -98,12 +98,31 @@ public class MatrixFragment extends Fragment {
         basicGridView = (GridView) view.findViewById(R.id.grid_view_basic);
         extraGridView = (GridView) view.findViewById(R.id.grid_view_extra);
 
-        descriptionTV.setText(this.user.getStringFullBirthday());
+        descriptionTV.setText(this.user.getStringFullBirthday(Utils.BirthdayFormat.LONG));
         matrixTitle.setText(R.string.hint_matrix);
 
-       // String str = new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf("")).append( getResources().getString(R.string.first_number)).append(String.valueOf(this.user.matrixPythagorasFirstNumber())).toString())).append("\n").append(getResources().getString(R.string.second_number)).append(String.valueOf(this.user.matrixPythagorasSecondNumber())).toString())).append("\n").append(getResources().getString(R.string.third_number)).append(String.valueOf(this.user.matrixPythagorasThirdNumber())).toString())).append("\n").append(getResources().getString(R.string.fourth_number)).append(String.valueOf(this.user.matrixPythagorasFourthNumber())).append("\n").toString() + getResources().getString(R.string.all_numbers) + " " + String.valueOf(this.user.matrixPythagorasAllNumbers());
-       // String str = new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf(new StringBuilder(String.valueOf("")).append(getResources().getString(R.string.first_number)).append(String.valueOf(this.user.matrixPythagorasFirstNumber())).toString())).append("\n").append(getResources().getString(R.string.second_number)).append(String.valueOf((Integer.valueOf(this.user.matrixPythagorasSecondNumber()) < 10 ) ? getResources().getString(R.string.none_number) : this.user.matrixPythagorasSecondNumber()  )).toString())).append("\n").append(getResources().getString(R.string.third_number)).append(String.valueOf(this.user.matrixPythagorasThirdNumber())).toString())).append("\n").append(getResources().getString(R.string.fourth_number)).append(String.valueOf( (this.user.matrixPythagorasFourthNumber() < 10) ? getResources().getString(R.string.none_number) : this.user.matrixPythagorasFourthNumber()  )).append("\n") + " ";
-       // matrixText.setText(str);
+        //set Extra numbers
+        StringBuilder builder = new StringBuilder();
+
+        String[] basicNumsTitle = getResources().getStringArray(R.array.basic_numbers);
+        String[] extraNumsTitle = getResources().getStringArray(R.array.extra_numbers);
+        String[] basicNums = this.user.matrixPythagorasBasicNumbers();
+        String[] extraNums = this.user.matrixPythagorasExtraNumbers();
+        for (int i = 0; i < basicNums.length; i++) {
+            builder.append(basicNumsTitle[i]);
+            try {
+                int j = Integer.valueOf(basicNums[i]);
+                builder.append(basicNums[i]).append("\n");
+            } catch (NumberFormatException e) {
+                builder.append(getResources().getString(R.string.none_number));
+            }
+        }
+        for (int i = 0; i < extraNums.length; i++) {
+            builder.append(extraNumsTitle[i]).append(extraNums[i]).append("\n");
+
+        }
+        builder.append(getResources().getString(R.string.all_numbers)).append(this.user.matrixPythagorasAllNumbers());
+        matrixText.setText(builder.toString());
         try {
             adjustGridView();
         } catch (IOException ex) {
@@ -125,20 +144,18 @@ public class MatrixFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_github: {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/AlexParfenjuk/PithagorasMatrix"));
-                startActivity(browserIntent);
-            }
+            case R.id.action_github:
                 return true;
             case R.id.action_dark_theme:
                 Prefs.setDarkTheme(getActivity(), !item.isChecked());
-                ((MainActivity)getActivity()).onChangeTheme();
+                ((MainActivity) getActivity()).onChangeTheme();
                 return true;
             case R.id.action_about:
-                showAboutDialog();
+                ((MainActivity) getActivity()).showAboutDialog();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -156,8 +173,7 @@ public class MatrixFragment extends Fragment {
     }
 
 
-    private void showAboutDialog() {
-    }
+
 
 
     private void adjustGridView() throws IOException{

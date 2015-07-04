@@ -106,16 +106,19 @@ public class User implements Parcelable {
     }
 
 
-    public String getStringFullBirthday() {
+    public String getStringFullBirthday(Utils.BirthdayFormat type) {
         final Calendar instance = Calendar.getInstance();
         instance.set(Calendar.YEAR, this.getYear());
         instance.set(Calendar.MONTH, this.getMonth());
         instance.set(Calendar.DAY_OF_MONTH, this.getBirthday());
-        return new SimpleDateFormat("dd MM yyyy").format(instance.getTime());
+        if (type == Utils.BirthdayFormat.SHORT) {
+            return new SimpleDateFormat("dd MM yyyy").format(instance.getTime());
+        }
+        return new SimpleDateFormat("dd MMMM yyyy").format(instance.getTime());
     }
 
     public String[] matrixPythagorasBirthdayNumbers() {
-        String[] array = this.getStringFullBirthday().split("\\s+");
+        String[] array = this.getStringFullBirthday(Utils.BirthdayFormat.SHORT).split("\\s+");
         for (String arr : array)
             System.out.println("Birthday data: " + arr);
         return array;
@@ -149,6 +152,22 @@ public class User implements Parcelable {
             ex.printStackTrace();
         }
         return array;
+    }
+
+    public String matrixPythagorasAllNumbers() {
+        StringBuilder builder = new StringBuilder();
+        ArrayList<String> allNumbersList = new ArrayList<>(Arrays.asList(matrixPythagorasBirthdayNumbers()));
+        allNumbersList.addAll(Arrays.asList(matrixPythagorasBasicNumbers()));
+        allNumbersList.addAll(Arrays.asList(matrixPythagorasExtraNumbers()));
+        for (String str : allNumbersList) {
+            try {
+                int i = Integer.valueOf(str);
+                builder.append(str).append(" ");
+            } catch (NumberFormatException e) {
+                builder.append("");
+            }
+        }
+        return builder.toString();
     }
 
 
@@ -312,7 +331,6 @@ public class User implements Parcelable {
             basicNumbersSum[i] = (sumBasic != 0 ? String.valueOf(sumBasic) : "") + (sumExtra != 0 ? " (" + String.valueOf(sumExtra) + ")" : "");
             j += 3;
         }
-        //ArrayList<String> matrixList = new ArrayList<String>(Arrays.asList(basicNumbersSum));
         return basicNumbersSum;
     }
 

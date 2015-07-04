@@ -134,26 +134,20 @@ public class UsersFragment extends ListFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_github: {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/AlexParfenjuk/PithagorasMatrix"));
-                startActivity(browserIntent);
-            }
+            case R.id.action_github:
                 return true;
-            case R.id.action_dark_theme: {
+            case R.id.action_dark_theme:
                 Prefs.setDarkTheme(getActivity(), !item.isChecked());
                 ((MainActivity) getActivity()).onChangeTheme();
-            }
                 return true;
             case R.id.action_about:
-                showAboutDialog();
+                ((MainActivity) getActivity()).showAboutDialog();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
-
-    private void showAboutDialog() {
-    }
 
     public String getVersionName() {
         String versionName;

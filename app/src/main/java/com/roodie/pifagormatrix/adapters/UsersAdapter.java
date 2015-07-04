@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.roodie.pifagormatrix.Prefs;
 import com.roodie.pifagormatrix.R;
+import com.roodie.pifagormatrix.Utils;
 import com.roodie.pifagormatrix.model.MatrixItem;
 import com.roodie.pifagormatrix.model.User;
 import com.squareup.picasso.Picasso;
@@ -63,9 +64,8 @@ public class UsersAdapter extends BaseAdapter {
         else {
             holder = (ViewHolder)convertView.getTag();
         }
-            //holder.imageView.setImageResource(this.context.getResources().getIdentifier());
             holder.titleTV.setText(this.usersDetails.get(position).getUserName());
-            holder.descriptionTV.setText(context.getResources().getString(R.string.birthday_date) + this.usersDetails.get(position).getStringFullBirthday());
+            holder.descriptionTV.setText(context.getResources().getString(R.string.birthday_date) + this.usersDetails.get(position).getStringFullBirthday(Utils.BirthdayFormat.LONG));
 
         int placeholderDrawableResId = Prefs.isDarkTheme(context) ? R.drawable.user_photo_placeholder_dark
                 : R.drawable.user_photo_placeholder_light;
@@ -76,8 +76,6 @@ public class UsersAdapter extends BaseAdapter {
                 .into(holder.imageView);
 
         return convertView;
-
-
     }
 
     private class ViewHolder {
